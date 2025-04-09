@@ -1,4 +1,4 @@
-import { readData } from "@/server/actions";
+import { CreateData, readData } from "@/server/actions";
 
 export default async function Home() {
   const { error, success } = await readData();
@@ -13,6 +13,14 @@ export default async function Home() {
       {success?.map((todo) => (
         <p key={todo.id}>{todo.title}</p>
       ))}
+      <form action={CreateData} className="flex gap-1">
+        <input
+          type="text"
+          name="todoTitle"
+          className="bg-transparent border border-white"
+        />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
