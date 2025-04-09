@@ -1,8 +1,10 @@
 import { CreateData, readData, deleteData } from "@/server/actions";
 import CustomButton from "@/components/custom-button";
+import Link from "next/link";
 
 export default async function Home() {
   const { error, success } = await readData();
+
   if (error) {
     throw new Error(error);
   }
@@ -14,10 +16,16 @@ export default async function Home() {
       {success?.map((todo) => (
         <div key={todo.id}>
           <form action={deleteData}>
-            <input type="text" name="id" value={todo.id} hidden />
-            <div className="flex gap-1 my-2">
+            <input type="text" name="id" value={todo.id} hidden readOnly />
+            <div className="flex gap-1 my-2 items-center">
               <p>{todo.title}</p>
-              <button className="p-1 rounded-lg bg-red-500">Delete</button>
+              <CustomButton name="Delete" />
+              <Link
+                href={`update/${todo.id}`}
+                className="text-green-600 p-1 rounded-lg bg-white pl-3 pr-3"
+              >
+                Edit
+              </Link>
             </div>
           </form>
         </div>
@@ -28,7 +36,7 @@ export default async function Home() {
           name="todoTitle"
           className="bg-transparent border border-white"
         />
-        <CustomButton />
+        <CustomButton name="Add item" />
       </form>
     </div>
   );
