@@ -1,4 +1,5 @@
 import { CreateData, readData } from "@/server/actions";
+import CustomButton from "@/components/custom-button";
 
 export default async function Home() {
   const { error, success } = await readData();
@@ -19,7 +20,7 @@ export default async function Home() {
           name="todoTitle"
           className="bg-transparent border border-white"
         />
-        <button type="submit">Submit</button>
+        <CustomButton />
       </form>
     </div>
   );
