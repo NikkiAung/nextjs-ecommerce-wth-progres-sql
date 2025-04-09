@@ -1,4 +1,4 @@
-import { CreateData, readData } from "@/server/actions";
+import { CreateData, readData, deleteData } from "@/server/actions";
 import CustomButton from "@/components/custom-button";
 
 export default async function Home() {
@@ -12,7 +12,15 @@ export default async function Home() {
     <div>
       <h1 className="text-2xl font-bold">Todos</h1>
       {success?.map((todo) => (
-        <p key={todo.id}>{todo.title}</p>
+        <div key={todo.id}>
+          <form action={deleteData}>
+            <input type="text" name="id" value={todo.id} hidden />
+            <div className="flex gap-1 my-2">
+              <p>{todo.title}</p>
+              <button className="p-1 rounded-lg bg-red-500">Delete</button>
+            </div>
+          </form>
+        </div>
       ))}
       <form action={CreateData} className="flex gap-1">
         <input
