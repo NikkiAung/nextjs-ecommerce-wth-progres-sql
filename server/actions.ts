@@ -1,28 +1,30 @@
 "use server";
 
 import { db } from "@/server";
-import { todos } from "@/server/schema";
+import { posts, todos } from "@/server/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export const readData = async () => {
-  const todos = await db.query.todos.findMany();
+export const getPosts = async () => {
+  const posts = await db.query.posts.findMany();
   //   const isError = true;
-  if (!todos) {
+  if (!posts) {
     return { error: "no todos found" };
   }
-  return { success: todos };
+  return { success: posts };
 };
 
-export const CreateData = async (formData: FormData) => {
-  const toDoTitle = formData.get("todoTitle")?.toString();
-  if (!toDoTitle) {
-    return { error: "no todos found" };
+export const CreatePost = async (formData: FormData) => {
+  console.log(formData);
+  const title = formData.get("todoTitle")?.toString();
+  const description = formData.get("description")?.toString();
+  if (!title || !description) {
+    return { error: "Invalid data format" };
   }
-  await db.insert(todos).values({ title: toDoTitle });
+  await db.insert(posts).values({ title, description });
   revalidatePath("/");
-  return { success: "To do created" };
+  redirect("/");
 };
 
 export const deleteData = async (formData: FormData) => {
