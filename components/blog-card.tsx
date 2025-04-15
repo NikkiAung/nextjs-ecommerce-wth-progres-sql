@@ -9,8 +9,7 @@ import Link from "next/link";
 
 const BlogCard = ({ id, title }: BlogPropsType) => {
   return (
-    
-    <form  @ts-ignore action={deleteData}>
+    <form action={deleteData}>
       <input type="text" name="id" value={id} hidden readOnly />
       <div className="flex gap-1 my-2 items-center">
         <p>{title}</p>

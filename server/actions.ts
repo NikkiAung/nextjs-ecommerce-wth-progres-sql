@@ -6,6 +6,10 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+type PostResponse =
+  | { success: string; error?: undefined }
+  | { error: string; success?: undefined };
+
 export const getPosts = async () => {
   const posts = await db.query.posts.findMany();
   //   const isError = true;
@@ -15,7 +19,7 @@ export const getPosts = async () => {
   return { success: posts };
 };
 
-export const CreatePost = async (formData: FormData) => {
+export const CreatePost = async (formData: FormData): Promise<PostResponse> => {
   console.log(formData);
   const title = formData.get("todoTitle")?.toString();
   const description = formData.get("description")?.toString();
